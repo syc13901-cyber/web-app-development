@@ -1,0 +1,22 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+
+# 系统与编辑器垃圾文件
+.DS_Store
+Thumbs.db
+desktop.ini
+__MACOSX/
+._*
+
+# IDE
+.vscode/
+.idea/
+
+# 归档文件（仓库只保留解压后的源码目录）
+*.zip
+
+# 日志
+*.log
+npm-debug.log*
