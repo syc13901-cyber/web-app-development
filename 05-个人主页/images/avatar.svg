@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="占位头像">
+  <!-- 课程作业占位头像：中性剪影，替代原始照片 -->
+  <rect width="200" height="200" fill="#9a0000"/>
+  <circle cx="100" cy="76" r="36" fill="#ffffff" opacity="0.92"/>
+  <path d="M38 200 C38 146 68 124 100 124 C132 124 162 146 162 200 Z" fill="#ffffff" opacity="0.92"/>
+</svg>

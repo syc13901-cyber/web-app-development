@@ -1,0 +1,650 @@
+/* ============================================================
+   李明的个人主页 —— 仿四川大学主页风格
+   ------------------------------------------------------------
+   布局技术说明（全部为传统 div+CSS 技术，未使用任何弹性/网格等现代布局）：
+   1. margin: 0 auto           —— 版心固定宽度水平居中
+   2. float + clear / clearfix —— 两栏布局、卡片排列、图文混排
+   3. display: inline-block    —— 导航条、标签、表单控件横向排列
+   4. position: relative/absolute/fixed —— 轮播图层叠、时间轴圆点、返回顶部
+   5. 文字两端对齐技巧          —— 导航菜单均匀分布（text-align: justify）
+   ============================================================ */
+
+/* ---------------- 全局与公共 ---------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font: 14px/1.6 "Microsoft YaHei", "PingFang SC", "微软雅黑", SimSun, sans-serif;
+  color: #333;
+  background: #f2f4f7;      /* 页面底色，衬托白色内容区块 */
+  min-width: 1000px;        /* 与版心同宽，保证小窗口内容完整 */
+}
+
+ul { list-style: none; }
+a { color: #333; text-decoration: none; }
+a:hover { color: #9a0000; }
+img { border: 0; vertical-align: middle; }
+
+/* 版心：固定宽度 + 左右自动外边距居中（经典居中技术） */
+.container { width: 1000px; margin: 0 auto; }
+
+/* 经典清除浮动方案 clearfix */
+.clearfix { zoom: 1; }
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+/* ---------------- 顶部服务条 ---------------- */
+#topbar {
+  height: 34px;
+  line-height: 34px;
+  background: #f7f8fa;
+  border-bottom: 1px solid #e5e7eb;
+  color: #888;
+  font-size: 12px;
+}
+.topbar-left { float: left; }
+.topbar-right { float: right; }
+.topbar-right a { color: #888; margin: 0 6px; }
+.topbar-right a:hover { color: #9a0000; }
+.topbar-right span { color: #d5d8de; }
+
+/* ---------------- 页头：LOGO + 搜索框 ---------------- */
+#header { background: #fff; }
+#header .container { height: 104px; }
+
+#logo { float: left; padding-top: 12px; }
+#logo h1 {
+  font-family: "STKaiti", "KaiTi", "楷体", serif;   /* 书法体站点名称 */
+  font-size: 46px;
+  line-height: 1.15;
+  color: #9a0000;
+  letter-spacing: 10px;
+}
+#logo .logo-en {
+  font-size: 12px;
+  color: #7d8ba3;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#search-box { float: right; padding-top: 20px; }
+.search-inner { width: 306px; }   /* 宽度 = 228 + 78，两个浮动元素拼合 */
+.search-text {
+  float: left;
+  width: 228px;
+  height: 42px;
+  border: 2px solid #9a0000;
+  border-right: none;
+  padding: 0 10px;
+  font-size: 13px;
+  color: #666;
+  outline: none;
+}
+.search-text::-webkit-input-placeholder { color: #bbb; }
+.search-btn {
+  float: left;
+  width: 78px;
+  height: 42px;
+  background: #9a0000;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+}
+.search-btn:hover { background: #7a0000; }
+.hot-words {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+  margin-top: 6px;
+}
+.hot-words a { color: #999; margin-left: 8px; }
+.hot-words a:hover { color: #9a0000; }
+
+/* ---------------- 主导航条 ---------------- */
+#nav { background: #9a0000; }
+
+/* 导航均匀分布：text-align: justify + 伪元素占满一行（经典技巧） */
+#nav ul { text-align: justify; line-height: 0; height: 46px; overflow: hidden; }
+#nav ul:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+  height: 0;
+}
+#nav li { display: inline-block; }
+#nav a {
+  display: block;
+  padding: 0 22px;
+  line-height: 46px;
+  color: #fff;
+  font-size: 16px;
+}
+#nav a:hover { background: #bd0101; }
+#nav li.current a { background: #7a0000; }
+
+/* ---------------- 焦点图：纯 CSS 自动轮播 ---------------- */
+#banner {
+  position: relative;      /* 相对定位，作为轮播层的定位父级 */
+  height: 400px;
+  overflow: hidden;
+}
+.banner-slide {
+  position: absolute;      /* 三张图绝对定位层叠 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  background-position: center center;
+  background-size: cover;
+  opacity: 0;
+  animation: bannerFade 15s linear infinite;   /* 15 秒一个轮回，每图 5 秒 */
+}
+.slide1 { background-image: url(../images/banner1.svg); }
+.slide2 { background-image: url(../images/banner2.svg); animation-delay: 5s; }
+.slide3 { background-image: url(../images/banner3.svg); animation-delay: 10s; }
+
+@keyframes bannerFade {
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  30%  { opacity: 1; }
+  36%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* 轮播标语：绝对定位居中（left:50% + 负外边距） */
+.banner-slogan {
+  position: absolute;
+  left: 50%;
+  top: 118px;
+  width: 620px;
+  margin-left: -310px;     /* 宽度的一半，实现水平居中 */
+  padding: 26px 0 22px;
+  text-align: center;
+  color: #fff;
+  background: rgba(90, 0, 0, 0.32);   /* 半透明深色衬底保证文字可读 */
+}
+.banner-slogan h2 {
+  font-family: "STKaiti", "KaiTi", "楷体", serif;
+  font-size: 40px;
+  letter-spacing: 10px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+.banner-slogan p {
+  font-size: 15px;
+  letter-spacing: 5px;
+  margin-top: 8px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 轮播指示点：与轮播同步高亮 */
+.banner-dots {
+  position: absolute;
+  right: 30px;
+  bottom: 16px;
+}
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  margin-left: 10px;
+}
+.dot1 { animation: dotOn 15s linear infinite; }
+.dot2 { animation: dotOn 15s linear infinite 5s; }
+.dot3 { animation: dotOn 15s linear infinite 10s; }
+
+@keyframes dotOn {
+  0%     { background: #fff; }
+  36%    { background: #fff; }
+  36.1%  { background: rgba(255, 255, 255, 0.4); }
+  100%   { background: rgba(255, 255, 255, 0.4); }
+}
+
+/* ---------------- 通知公告滚动条 ---------------- */
+#notice {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+#notice .container { height: 44px; }
+
+.notice-tag {
+  float: left;
+  margin-top: 8px;
+  padding: 2px 10px;
+  background: #bd0101;
+  color: #fff;
+  font-size: 12px;
+}
+.notice-scroll {
+  float: left;
+  width: 780px;
+  height: 44px;
+  margin-left: 14px;
+  overflow: hidden;         /* 只露出一条，其余藏起来 */
+}
+.notice-scroll li {
+  height: 44px;
+  line-height: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notice-scroll a { color: #444; }
+.notice-scroll a:hover { color: #bd0101; }
+
+/* 用 position + top 动画实现"逐条上滚"（老式走马灯效果） */
+.notice-scroll ul {
+  position: relative;
+  animation: noticeMove 12s infinite;
+}
+@keyframes noticeMove {
+  0%, 23%   { top: 0; }
+  26%, 49%  { top: -44px; }
+  52%, 75%  { top: -88px; }
+  78%, 98%  { top: -132px; }
+  100%      { top: 0; }
+}
+.notice-more {
+  float: right;
+  line-height: 44px;
+  font-size: 12px;
+  color: #999;
+}
+.notice-more:hover { color: #9a0000; }
+
+/* ---------------- 主体两栏布局 ---------------- */
+#main { margin-top: 20px; }
+#content { float: left; width: 660px; }    /* 左主栏 660 */
+#aside  { float: right; width: 320px; }    /* 右侧栏 320，中间自然留出 20 间隙 */
+
+/* ---------------- 通用栏目面板 ---------------- */
+.panel {
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  box-shadow: 0 1px 3px rgba(0, 30, 90, 0.06);
+  margin-bottom: 20px;
+}
+.panel-hd {
+  padding: 12px 16px;
+  background: #f7f9fc;
+  border-bottom: 1px solid #e8ecf2;
+}
+.panel-hd h2 {
+  float: left;
+  font-size: 18px;
+  line-height: 22px;
+  color: #7a0000;
+  padding-left: 12px;
+  border-left: 4px solid #9a0000;   /* 川大红标题装饰条 */
+}
+.panel-hd .more {
+  float: right;
+  font-size: 12px;
+  line-height: 22px;
+  color: #999;
+}
+.panel-hd .more:hover { color: #9a0000; }
+.panel-bd { padding: 16px; }
+
+/* ---------------- 焦点动态 ---------------- */
+.focus-item {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #eef1f5;
+}
+.focus-img {
+  float: left;                        /* 图片左浮动 */
+  width: 240px;
+  height: 150px;
+  border: 1px solid #e3e6ec;
+  overflow: hidden;
+}
+.focus-img img {
+  width: 240px;
+  height: 150px;
+  object-fit: cover;
+}
+.focus-text { margin-left: 260px; }    /* 文字区用外边距避开左图（不浮动） */
+.focus-text h3 {
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.focus-text p {
+  font-size: 13px;
+  color: #777;
+  text-indent: 2em;
+  line-height: 1.8;
+}
+
+/* ---------------- 新闻列表（通用） ---------------- */
+.news-list li {
+  height: 38px;
+  line-height: 38px;
+  border-bottom: 1px dashed #e8ecf2;
+}
+.news-list li:last-child { border-bottom: none; }
+.news-list a {
+  float: left;
+  display: block;
+  max-width: 520px;
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;    /* 超长标题省略号 */
+}
+.news-list a:before {         /* 小圆点项目符号 */
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 10px;
+  background: #9a0000;
+  border-radius: 50%;
+  vertical-align: 3px;
+}
+.news-list a:hover { color: #bd0101; }
+.news-list .date {
+  float: right;
+  font-size: 12px;
+  color: #999;
+}
+
+/* ---------------- 关于我 ---------------- */
+.about-avatar {
+  float: left;                          /* 圆形头像左浮动 */
+  width: 130px;
+  height: 130px;
+  object-fit: cover;                    /* 照片按比例裁切填满圆形 */
+  border: 3px solid #e8ecf2;
+  border-radius: 50%;
+}
+.about-text { margin-left: 156px; }
+.about-text p {
+  color: #555;
+  line-height: 1.9;
+  margin-bottom: 8px;
+  text-indent: 2em;
+}
+.about-text .about-motto {
+  color: #9a0000;
+  font-weight: bold;
+}
+.tags { margin-top: 4px; }
+.tags span {
+  display: inline-block;                /* 行内块标签 */
+  padding: 2px 10px;
+  margin: 0 8px 8px 0;
+  background: #fdf1f1;
+  border: 1px solid #f0d5d5;
+  border-radius: 3px;
+  color: #9a0000;
+  font-size: 12px;
+}
+
+/* ---------------- 学习经历（时间轴） ---------------- */
+.exp-list li {
+  position: relative;                   /* 作为圆点的定位父级 */
+  padding: 10px 0 10px 16px;
+  border-left: 2px solid #dfe6f0;
+  margin-left: 6px;
+}
+.exp-list li:before {                   /* 绝对定位的时间轴圆点 */
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 18px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #9a0000;
+}
+.exp-time {
+  display: inline-block;
+  width: 118px;
+  color: #9a0000;
+  font-weight: bold;
+}
+.exp-evt { color: #555; }
+
+/* ---------------- 右侧栏 ---------------- */
+.side-panel {
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  box-shadow: 0 1px 3px rgba(0, 30, 90, 0.06);
+  margin-bottom: 20px;
+}
+.side-hd {
+  height: 44px;
+  line-height: 44px;
+  padding-left: 14px;
+  background: #9a0000;
+  color: #fff;
+  font-size: 16px;
+}
+.side-bd { padding: 14px; }
+
+/* 个人名片 */
+.card-avatar {
+  display: block;          /* 块级 + 上下 auto 外边距 → 水平居中 */
+  width: 96px;
+  height: 96px;
+  object-fit: cover;       /* 照片按比例裁切填满圆形 */
+  margin: 6px auto 10px;
+  border: 3px solid #e8ecf2;
+  border-radius: 50%;
+}
+.side-bd h3 {
+  font-size: 18px;
+  text-align: center;
+  color: #222;
+}
+.card-sub {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin: 2px 0 12px;
+}
+.card-info { border-top: 1px dashed #e3e6ec; padding-top: 10px; }
+.card-info li {
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+  color: #555;
+}
+.card-info span { color: #999; }
+
+/* 快速通道：每行两个浮动色块 */
+.quick-link {
+  float: left;
+  display: block;
+  width: 139px;
+  height: 40px;
+  line-height: 38px;
+  text-align: center;
+  margin-bottom: 10px;
+  background: #fdf4f4;
+  border: 1px solid #eccaca;
+  color: #7a0000;
+  font-size: 14px;
+}
+.quick-link:nth-child(2n+1) { clear: both; }   /* 奇数项清除浮动换行 */
+.quick-link:nth-child(2n)   { margin-left: 12px; }
+.quick-link:hover {
+  background: #9a0000;
+  border-color: #9a0000;
+  color: #fff;
+}
+
+/* 我的相册：每行两张缩略图 */
+.album-item {
+  float: left;
+  display: block;
+  width: 138px;
+  height: 96px;
+  margin-bottom: 10px;
+  border: 1px solid #e3e6ec;
+  overflow: hidden;
+}
+.album-item:nth-child(2n+1) { clear: both; }
+.album-item:nth-child(2n)   { margin-left: 12px; }
+.album-item img {
+  width: 138px;
+  height: 96px;
+  object-fit: cover;
+}
+.album-item:hover img { opacity: 0.82; }
+
+/* ---------------- 作品展示：四列浮动卡片 ---------------- */
+.work-card {
+  float: left;
+  width: 228px;
+  margin-right: 18px;
+}
+.work-card:last-child { margin-right: 0; }   /* 最后一张去掉右外边距 */
+.work-card img {
+  width: 226px;
+  height: 158px;
+  border: 1px solid #e3e6ec;
+  object-fit: cover;
+}
+.work-card h3 {
+  font-size: 15px;
+  margin: 10px 0 4px;
+  text-align: center;
+}
+.work-card p {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.7;
+}
+
+/* ---------------- 学习资源 + 留言（两栏） ---------------- */
+#resources-row { margin-bottom: 0; }
+.half-panel { float: left; width: 480px; }
+.half-last  { margin-left: 40px; }    /* 480 + 40 + 480 = 1000 */
+
+/* 学习资源列表 */
+.res-list li {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px dashed #e8ecf2;
+}
+.res-list li:last-child { border-bottom: none; }
+.res-list a {
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 360px;
+  vertical-align: middle;
+}
+.res-list a:hover { color: #bd0101; }
+.cat {
+  display: inline-block;
+  padding: 1px 8px;
+  margin-right: 10px;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 3px;
+}
+.cat-blue  { background: #4a7bd4; }
+.cat-red   { background: #bd0101; }
+.cat-green { background: #4e9e62; }
+.cat-gray  { background: #8a94a6; }
+
+/* 留言表单：label 行内块定宽对齐 */
+.form-row { margin-bottom: 14px; }
+.form-row label {
+  display: inline-block;
+  width: 72px;
+  text-align: right;
+  margin-right: 10px;
+  color: #555;
+}
+.input {
+  width: 300px;
+  height: 38px;
+  border: 1px solid #ccd5e3;
+  padding: 0 10px;
+  font-size: 13px;
+  outline: none;
+}
+.textarea {
+  width: 350px;
+  height: 118px;
+  padding: 8px 10px;
+  border: 1px solid #ccd5e3;
+  font: 13px/1.6 "Microsoft YaHei", "微软雅黑", sans-serif;
+  outline: none;
+  resize: none;
+  vertical-align: top;      /* 与 label 顶部对齐 */
+}
+.input:focus, .textarea:focus { border-color: #9a0000; }
+.btn {
+  height: 38px;
+  padding: 0 32px;
+  background: #9a0000;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn:hover { background: #7a0000; }
+
+/* ---------------- 友情链接 ---------------- */
+.links-bd { text-align: center; }
+.links-bd a {
+  display: inline-block;
+  margin: 4px 14px;
+  color: #555;
+}
+.links-bd a:hover { color: #9a0000; }
+
+/* ---------------- 页脚 ---------------- */
+#footer {
+  background: #6f0000;
+  padding: 26px 0 30px;
+  margin-top: 20px;
+}
+.footer-nav {
+  text-align: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #a83838;
+  margin-bottom: 14px;
+}
+.footer-nav a {
+  color: #e8c8c8;
+  margin: 0 12px;
+  font-size: 14px;
+}
+.footer-nav a:hover { color: #fff; }
+.footer-info {
+  text-align: center;
+  font-size: 12px;
+  color: #d9aeae;
+  line-height: 24px;
+}
+
+/* ---------------- 返回顶部（fixed 固定定位） ---------------- */
+#back-top {
+  position: fixed;          /* 固定在视口右下角，不随页面滚动 */
+  right: 24px;
+  bottom: 60px;
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  background: #9a0000;
+  color: #fff;
+  opacity: 0.85;
+}
+#back-top:hover { background: #7a0000; opacity: 1; }

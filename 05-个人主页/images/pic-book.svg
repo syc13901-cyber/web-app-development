@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <!-- 读书笔记（摊开的书与咖啡） -->
+  <rect width="400" height="280" fill="#fbf2e2"/>
+  <circle cx="64" cy="58" r="44" fill="#f3e2c4"/>
+  <circle cx="352" cy="236" r="52" fill="#f6e8cf"/>
+
+  <!-- 摊开的书 -->
+  <path d="M200,148 L106,120 L106,194 L200,222 Z" fill="#ffffff" stroke="#d9c9a8" stroke-width="2"/>
+  <path d="M200,148 L294,120 L294,194 L200,222 Z" fill="#f7f7f7" stroke="#d9c9a8" stroke-width="2"/>
+  <!-- 书脊阴影 -->
+  <path d="M200,148 L106,120 L106,128 L200,156 Z" fill="#efe6d0"/>
+  <path d="M200,148 L200,222" stroke="#d9c9a8" stroke-width="2"/>
+  <!-- 左页文字 -->
+  <g fill="#c9bc9e">
+    <rect x="122" y="140" width="58" height="5" rx="2"/>
+    <rect x="122" y="154" width="50" height="5" rx="2"/>
+    <rect x="122" y="168" width="58" height="5" rx="2"/>
+    <rect x="122" y="182" width="44" height="5" rx="2"/>
+  </g>
+  <!-- 右页文字 -->
+  <g fill="#c9bc9e">
+    <rect x="220" y="140" width="58" height="5" rx="2"/>
+    <rect x="220" y="154" width="52" height="5" rx="2"/>
+    <rect x="220" y="168" width="56" height="5" rx="2"/>
+    <rect x="220" y="182" width="46" height="5" rx="2"/>
+  </g>
+
+  <!-- 咖啡杯 -->
+  <rect x="298" y="196" width="34" height="28" rx="4" fill="#ffffff" stroke="#d9c9a8" stroke-width="2"/>
+  <path d="M332,203 q14,5 0,15" fill="none" stroke="#d9c9a8" stroke-width="3"/>
+  <rect x="293" y="224" width="44" height="5" rx="2" fill="#d9c9a8"/>
+  <path d="M308,188 q4,-7 0,-13" stroke="#d9c9a8" fill="none" stroke-width="2" opacity="0.7"/>
+  <path d="M320,190 q4,-7 0,-13" stroke="#d9c9a8" fill="none" stroke-width="2" opacity="0.7"/>
+</svg>

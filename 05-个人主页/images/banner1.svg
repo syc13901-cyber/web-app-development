@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520">
+  <!-- 轮播图1：晨光中的校园 -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b7d9f7"/>
+      <stop offset="55%" stop-color="#e3f1fd"/>
+      <stop offset="100%" stop-color="#fdf3da"/>
+    </linearGradient>
+    <linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8ec971"/>
+      <stop offset="100%" stop-color="#5f9e52"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 天空与朝阳 -->
+  <rect width="1600" height="520" fill="url(#sky)"/>
+  <circle cx="1290" cy="95" r="60" fill="#ffd873" opacity="0.25"/>
+  <circle cx="1290" cy="95" r="40" fill="#ffd873" opacity="0.9"/>
+
+  <!-- 远山 -->
+  <path d="M0,430 Q180,320 400,410 T820,390 T1240,420 T1600,395 L1600,440 L0,440 Z" fill="#aac6e2"/>
+  <path d="M0,440 Q320,360 640,430 T1180,420 T1600,435 L1600,460 L0,460 Z" fill="#8fb3d6" opacity="0.85"/>
+
+  <!-- 草坪 -->
+  <rect x="0" y="430" width="1600" height="90" fill="url(#lawn)"/>
+
+  <!-- 中央大道 -->
+  <polygon points="740,520 860,520 830,430 770,430" fill="#e9e2cf"/>
+
+  <!-- 左侧树木 -->
+  <g>
+    <rect x="152" y="392" width="14" height="52" fill="#7a5c43"/>
+    <circle cx="159" cy="368" r="44" fill="#5c9a55"/>
+    <circle cx="118" cy="398" r="30" fill="#6fae62"/>
+    <circle cx="200" cy="398" r="28" fill="#4d8a49"/>
+    <rect x="292" y="402" width="12" height="44" fill="#7a5c43"/>
+    <circle cx="298" cy="382" r="34" fill="#6fae62"/>
+    <circle cx="262" cy="406" r="22" fill="#5c9a55"/>
+  </g>
+
+  <!-- 右侧树木 -->
+  <g>
+    <rect x="1428" y="392" width="14" height="52" fill="#7a5c43"/>
+    <circle cx="1435" cy="368" r="44" fill="#5c9a55"/>
+    <circle cx="1478" cy="398" r="30" fill="#6fae62"/>
+    <circle cx="1392" cy="398" r="28" fill="#4d8a49"/>
+    <rect x="1298" y="402" width="12" height="44" fill="#7a5c43"/>
+    <circle cx="1304" cy="382" r="34" fill="#6fae62"/>
+  </g>
+
+  <!-- 教学楼台阶 -->
+  <rect x="655" y="474" width="290" height="12" fill="#ded5bd"/>
+  <rect x="672" y="462" width="256" height="12" fill="#e6ddc6"/>
+  <rect x="688" y="450" width="224" height="12" fill="#eee5cd"/>
+
+  <!-- 两侧翼楼 -->
+  <rect x="560" y="392" width="130" height="58" fill="#ece5d2"/>
+  <rect x="910" y="392" width="130" height="58" fill="#ece5d2"/>
+  <g fill="#c9d8e8">
+    <rect x="578" y="406" width="16" height="20"/><rect x="608" y="406" width="16" height="20"/>
+    <rect x="638" y="406" width="16" height="20"/><rect x="662" y="406" width="16" height="20"/>
+    <rect x="928" y="406" width="16" height="20"/><rect x="958" y="406" width="16" height="20"/>
+    <rect x="988" y="406" width="16" height="20"/><rect x="1012" y="406" width="16" height="20"/>
+  </g>
+
+  <!-- 教学楼主楼 -->
+  <rect x="700" y="346" width="200" height="104" fill="#f8f3e7"/>
+  <rect x="764" y="398" width="72" height="52" fill="#46536b"/>
+  <g fill="#e9e0c8">
+    <rect x="712" y="356" width="12" height="94"/>
+    <rect x="744" y="356" width="12" height="94"/>
+    <rect x="776" y="356" width="12" height="94"/>
+    <rect x="808" y="356" width="12" height="94"/>
+    <rect x="840" y="356" width="12" height="94"/>
+    <rect x="872" y="356" width="12" height="94"/>
+  </g>
+  <rect x="692" y="338" width="216" height="10" fill="#d9cfb4"/>
+  <polygon points="686,338 914,338 800,292" fill="#f1e9d5"/>
+  <rect x="796" y="252" width="4" height="42" fill="#8a7f66"/>
+  <polygon points="800,252 844,260 800,270" fill="#d64541"/>
+  <circle cx="800" cy="288" r="5" fill="#b8a77e"/>
+</svg>

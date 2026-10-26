@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520">
+  <!-- 轮播图3：锦江夜色 -->
+  <defs>
+    <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#131f45"/>
+      <stop offset="70%" stop-color="#2c4474"/>
+      <stop offset="100%" stop-color="#3d5a8f"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#24406e"/>
+      <stop offset="100%" stop-color="#101d3d"/>
+    </linearGradient>
+    <pattern id="winA" width="28" height="26" patternUnits="userSpaceOnUse">
+      <rect width="28" height="26" fill="#1a2a52"/>
+      <rect x="7" y="7" width="13" height="11" fill="#ffd97a"/>
+    </pattern>
+    <pattern id="winB" width="30" height="28" patternUnits="userSpaceOnUse">
+      <rect width="30" height="28" fill="#182647"/>
+      <rect x="8" y="8" width="12" height="10" fill="#9db4e0" opacity="0.7"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="520" fill="url(#sky3)"/>
+
+  <!-- 星星 -->
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="120" cy="70" r="1.6"/><circle cx="260" cy="140" r="1.2"/><circle cx="420" cy="60" r="1.4"/>
+    <circle cx="540" cy="120" r="1"/><circle cx="700" cy="55" r="1.5"/><circle cx="880" cy="110" r="1.2"/>
+    <circle cx="1020" cy="60" r="1.4"/><circle cx="1160" cy="150" r="1"/><circle cx="1460" cy="80" r="1.4"/>
+    <circle cx="1550" cy="180" r="1.2"/><circle cx="330" cy="210" r="1"/><circle cx="620" cy="200" r="1"/>
+  </g>
+
+  <!-- 月亮 -->
+  <circle cx="1280" cy="95" r="56" fill="#f4f0dc" opacity="0.12"/>
+  <circle cx="1280" cy="95" r="34" fill="#f4f0dc"/>
+  <circle cx="1268" cy="86" r="6" fill="#e2dcbf" opacity="0.6"/>
+  <circle cx="1292" cy="107" r="4" fill="#e2dcbf" opacity="0.5"/>
+
+  <!-- 楼群剪影（窗格用 pattern 铺贴） -->
+  <rect x="40" y="290" width="130" height="115" fill="url(#winA)"/>
+  <rect x="170" y="320" width="100" height="85" fill="url(#winB)"/>
+  <rect x="280" y="260" width="150" height="145" fill="url(#winB)"/>
+  <rect x="430" y="300" width="110" height="105" fill="url(#winA)"/>
+  <polygon points="575,230 685,230 630,196" fill="#1a2a52"/>
+  <rect x="590" y="230" width="80" height="175" fill="url(#winA)"/>
+  <rect x="1150" y="270" width="140" height="135" fill="url(#winB)"/>
+  <rect x="1290" y="310" width="120" height="95" fill="url(#winA)"/>
+  <rect x="1400" y="280" width="160" height="125" fill="url(#winB)"/>
+
+  <!-- 岸线与江面 -->
+  <rect x="0" y="405" width="1600" height="6" fill="#0e1a38"/>
+  <rect x="0" y="410" width="1600" height="110" fill="url(#river)"/>
+
+  <!-- 江面倒影 -->
+  <ellipse cx="1280" cy="470" rx="28" ry="42" fill="#f4f0dc" opacity="0.2"/>
+  <g fill="#ffd97a" opacity="0.16">
+    <rect x="100" y="418" width="10" height="62"/><rect x="218" y="415" width="8" height="52"/>
+    <rect x="352" y="418" width="10" height="70"/><rect x="482" y="415" width="8" height="56"/>
+    <rect x="626" y="418" width="10" height="66"/><rect x="1218" y="415" width="8" height="58"/>
+    <rect x="1348" y="418" width="10" height="64"/><rect x="1478" y="415" width="8" height="55"/>
+  </g>
+  <g fill="#9db4e0" opacity="0.12">
+    <rect x="140" y="425" width="8" height="40"/><rect x="390" y="425" width="8" height="38"/>
+    <rect x="1180" y="425" width="8" height="36"/><rect x="1430" y="425" width="8" height="42"/>
+  </g>
+
+  <!-- 江上拱桥 -->
+  <path d="M520,432 Q800,380 1080,432" fill="none" stroke="#22355e" stroke-width="9"/>
+  <path d="M520,432 Q800,380 1080,432" fill="none" stroke="#3a5c94" stroke-width="2" opacity="0.6"/>
+</svg>

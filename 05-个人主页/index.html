@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>我的个人主页 - MY PERSONAL HOMEPAGE</title>
+  <meta name="description" content="个人主页课程作业：关于我、学习经历、通知公告、作品展示、学习资源与联系方式（仿四川大学主页风格）">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%239a0000'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23ffffff' font-family='KaiTi'%3E妍%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="top">
+
+  <!-- ================= 顶部服务条 ================= -->
+  <div id="topbar">
+    <div class="container clearfix">
+      <div class="topbar-left">欢迎访问我的个人主页，本站模仿四川大学主页风格制作</div>
+      <div class="topbar-right">
+        <a href="#top">回到首页</a><span>|</span>
+        <a href="#">设为首页</a><span>|</span>
+        <a href="#">加入收藏</a><span>|</span>
+        <a href="#message">联系我</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 页头：LOGO + 站内搜索 ================= -->
+  <div id="header">
+    <div class="container clearfix">
+      <div id="logo">
+        <h1>个人主页</h1>
+        <p class="logo-en">My Personal Homepage</p>
+      </div>
+      <div id="search-box">
+        <form action="#" method="get">
+          <div class="search-inner">
+            <input type="text" class="search-text" placeholder="请输入搜索关键词">
+            <input type="submit" class="search-btn" value="搜 索">
+          </div>
+        </form>
+        <p class="hot-words">热门搜索：<a href="#">简历</a><a href="#">作品集</a><a href="#">课程笔记</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 主导航条 ================= -->
+  <div id="nav">
+    <div class="container">
+      <ul>
+        <li class="current"><a href="#top">首页</a></li>
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#exp">学习经历</a></li>
+        <li><a href="#notice-panel">通知公告</a></li>
+        <li><a href="#works">作品展示</a></li>
+        <li><a href="#resources">学习资源</a></li>
+        <li><a href="#message">给我留言</a></li>
+        <li><a href="http://www.scu.edu.cn" target="_blank">川大官网</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ================= 焦点图（纯 CSS 自动轮播） ================= -->
+  <div id="banner">
+    <div class="banner-slide slide1"></div>
+    <div class="banner-slide slide2"></div>
+    <div class="banner-slide slide3"></div>
+    <div class="banner-slogan">
+      <h2>海纳百川 · 有容乃大</h2>
+      <p>记录学习与生活的点点滴滴</p>
+    </div>
+    <div class="banner-dots">
+      <span class="dot dot1"></span><span class="dot dot2"></span><span class="dot dot3"></span>
+    </div>
+  </div>
+
+  <!-- ================= 通知公告滚动条 ================= -->
+  <div id="notice">
+    <div class="container clearfix">
+      <span class="notice-tag">通知公告</span>
+      <div class="notice-scroll">
+        <ul>
+          <li><a href="#notice-panel">2026—2027 学年第一学期期末考试安排已经发布，请注意各科目复习时间节点</a></li>
+          <li><a href="#notice-panel">《Web应用开发》课程大作业提交截止时间为第 16 周周五 18:00，请按时提交</a></li>
+          <li><a href="#notice-panel">个人简历（PDF 版）已更新至 2026 年 10 月版，欢迎各位老师同学下载浏览</a></li>
+          <li><a href="#notice-panel">本站全部采用 DIV+CSS 传统布局技术完成，建议使用 1920×1080 分辨率浏览</a></li>
+        </ul>
+      </div>
+      <a class="notice-more" href="#notice-panel">更多 »</a>
+    </div>
+  </div>
+
+  <!-- ================= 主体：左主栏 + 右侧栏（浮动两栏布局） ================= -->
+  <div id="main" class="container clearfix">
+
+    <!-- ---------- 左侧主栏（float: left） ---------- -->
+    <div id="content">
+
+      <!-- 焦点动态 -->
+      <div class="panel">
+        <div class="panel-hd clearfix">
+          <h2>焦点动态</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd">
+          <div class="focus-item clearfix">
+            <a href="#" class="focus-img"><img src="images/pic-web.svg" alt="Web 课程作品"></a>
+            <div class="focus-text">
+              <h3><a href="#">我的 Web 课程作品《校园二手书交易平台》完成结课答辩</a></h3>
+              <p>本学期在《Web应用开发》课程中，我独立设计并实现了一个校园二手书交易平台。全站共 12 个页面，采用 DIV+CSS 传统布局技术完成，包含首页、图书列表、图书详情、购物车与留言板等模块，最终获得课程展评优秀作品。</p>
+            </div>
+          </div>
+          <ul class="news-list">
+            <li><a href="#">获得 2026 年全国大学生数学建模竞赛四川省一等奖</a><span class="date">10-18</span></li>
+            <li><a href="#">课程论文《基于深度学习的图像分类方法研究》被课程展评收录</a><span class="date">10-09</span></li>
+            <li><a href="#">参加学院第六届程序设计大赛，获得二等奖</a><span class="date">09-28</span></li>
+            <li><a href="#">新学期课表已经更新，本学期共修读 8 门课程</a><span class="date">09-01</span></li>
+            <li><a href="#">暑期社会实践小分队赴凉山州开展支教活动圆满归来</a><span class="date">08-15</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 通知公告 -->
+      <div class="panel" id="notice-panel">
+        <div class="panel-hd clearfix">
+          <h2>通知公告</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd">
+          <ul class="news-list">
+            <li><a href="#">【考试】2026—2027 学年第一学期期末考试安排的通知</a><span class="date">10-20</span></li>
+            <li><a href="#">【作业】《Web应用开发》大作业提交说明与评分标准</a><span class="date">10-16</span></li>
+            <li><a href="#">【讲座】计算神经科学前沿系列讲座（第 3 期）报名通知</a><span class="date">10-12</span></li>
+            <li><a href="#">【更新】个人简历 2026 年 10 月版已上线，欢迎查阅</a><span class="date">10-08</span></li>
+            <li><a href="#">【活动】学院羽毛球友谊赛报名开始，截止 10 月 30 日</a><span class="date">10-05</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 关于我 -->
+      <div class="panel" id="about">
+        <div class="panel-hd clearfix">
+          <h2>关于我</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd clearfix">
+          <img class="about-avatar" src="images/avatar.svg" alt="我的头像">
+          <div class="about-text">
+            <p>大家好，我是一名网络空间安全专业的本科生。本站是我为《Web应用开发》课程制作的个人主页，整体风格模仿四川大学官方网站，全部页面采用 DIV + CSS 传统布局技术完成。</p>
+            <p>平时喜欢写代码、读书和摄影，偶尔也打打羽毛球。我信奉"海纳百川，有容乃大"的川大校训，希望能在大学四年里广泛涉猎、踏实积累，成为一名基础扎实的网络空间安全人。</p>
+            <p class="about-motto">座右铭：日拱一卒，功不唐捐。</p>
+            <div class="tags">
+              <span>Python</span><span>C 语言</span><span>HTML / CSS</span><span>机器学习</span><span>摄影</span><span>羽毛球</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 学习经历 -->
+      <div class="panel" id="exp">
+        <div class="panel-hd clearfix">
+          <h2>学习经历</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd">
+          <ul class="exp-list">
+            <li><span class="exp-time">2023.09 — 至今</span><span class="exp-evt">四川大学 网络空间安全学院 网络空间安全专业 本科在读（GPA 3.8 / 4.0）</span></li>
+            <li><span class="exp-time">2025.09 — 2026.01</span><span class="exp-evt">参加校级科研项目《基于机器学习的校园能耗预测》，负责数据处理与结果可视化</span></li>
+            <li><span class="exp-time">2025.07 — 2025.08</span><span class="exp-evt">成都某互联网公司 Web 开发方向暑期实习，参与内部管理系统前端页面重构</span></li>
+            <li><span class="exp-time">2024.09 — 2025.06</span><span class="exp-evt">担任网络空间安全学院学生会宣传部部长，负责学院网站内容维护与公众号运营</span></li>
+            <li><span class="exp-time">2017.09 — 2023.06</span><span class="exp-evt">四川省成都市第七中学（初中 · 高中）</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---------- 右侧栏（float: right） ---------- -->
+    <div id="aside">
+
+      <!-- 个人名片 -->
+      <div class="side-panel">
+        <div class="side-hd">个人名片</div>
+        <div class="side-bd">
+          <img class="card-avatar" src="images/avatar.svg" alt="我的头像">
+          <h3>联系我</h3>
+          <p class="card-sub">网络空间安全学院 · 2023 级本科生</p>
+          <ul class="card-info">
+            <li><span>专　业：</span>网络空间安全</li>
+            <li><span>邮　箱：</span>webmaster@example.com</li>
+            <li><span>地　址：</span>四川省成都市</li>
+            <li><span>状　态：</span>大三在读 · 求日常实习</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 快速通道 -->
+      <div class="side-panel">
+        <div class="side-hd">快速通道</div>
+        <div class="side-bd clearfix">
+          <a class="quick-link" href="#">简历下载</a>
+          <a class="quick-link" href="#">课程笔记</a>
+          <a class="quick-link" href="#">项目仓库</a>
+          <a class="quick-link" href="#">我的相册</a>
+        </div>
+      </div>
+
+      <!-- 我的相册 -->
+      <div class="side-panel">
+        <div class="side-hd">我的相册</div>
+        <div class="side-bd clearfix">
+          <a href="#" class="album-item" title="晨光中的校园"><img src="images/banner1.svg" alt="晨光中的校园"></a>
+          <a href="#" class="album-item" title="金黄的银杏大道"><img src="images/banner2.svg" alt="金黄的银杏大道"></a>
+          <a href="#" class="album-item" title="锦江夜色"><img src="images/banner3.svg" alt="锦江夜色"></a>
+          <a href="#" class="album-item" title="镜头下的生活"><img src="images/pic-camera.svg" alt="镜头下的生活"></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= 作品展示（四列浮动卡片） ================= -->
+  <div id="works" class="container">
+    <div class="panel">
+      <div class="panel-hd clearfix">
+        <h2>作品展示</h2>
+        <a class="more" href="#">更多 »</a>
+      </div>
+      <div class="panel-bd clearfix">
+        <div class="work-card">
+          <a href="#"><img src="images/pic-web.svg" alt="校园二手书交易平台"></a>
+          <h3><a href="#">校园二手书平台</a></h3>
+          <p>DIV+CSS 打造的静态站点，含首页、列表、详情、留言等 12 个页面</p>
+        </div>
+        <div class="work-card">
+          <a href="#"><img src="images/pic-code.svg" alt="课程笔记库"></a>
+          <h3><a href="#">在线课程笔记库</a></h3>
+          <p>整理大一至今全部课程笔记，支持按课程与章节双维度检索</p>
+        </div>
+        <div class="work-card">
+          <a href="#"><img src="images/pic-camera.svg" alt="校园光影集"></a>
+          <h3><a href="#">校园光影集</a></h3>
+          <p>用镜头记录川大的四季：银杏、蓝花楹与九眼桥的夜景</p>
+        </div>
+        <div class="work-card">
+          <a href="#"><img src="images/pic-sports.svg" alt="羽毛球社战绩页"></a>
+          <h3><a href="#">羽社战绩页</a></h3>
+          <p>学院羽毛球社招新与战绩展示页，双栏布局 + 滚动公告条</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 学习资源 + 给我留言（左右两栏） ================= -->
+  <div class="container clearfix" id="resources-row">
+    <div class="half-panel">
+      <div class="panel" id="resources">
+        <div class="panel-hd clearfix">
+          <h2>学习资源</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd">
+          <ul class="res-list">
+            <li><span class="cat cat-blue">笔记</span><a href="#">HTML 与 CSS 基础知识整理（DIV+CSS 布局篇）</a></li>
+            <li><span class="cat cat-red">笔记</span><a href="#">《线性代数》期末复习提纲（自用精简版）</a></li>
+            <li><span class="cat cat-green">课件</span><a href="#">《数据结构》课程课件（2025 秋季学期）</a></li>
+            <li><span class="cat cat-blue">笔记</span><a href="#">Python 常用数据处理技巧速查表</a></li>
+            <li><span class="cat cat-gray">工具</span><a href="#">浏览器开发者工具（F12）调试页面小技巧</a></li>
+            <li><span class="cat cat-green">模板</span><a href="#">课程实验报告模板（Word / LaTeX 双版本）</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="half-panel half-last">
+      <div class="panel" id="message">
+        <div class="panel-hd clearfix">
+          <h2>给我留言</h2>
+          <a class="more" href="#">更多 »</a>
+        </div>
+        <div class="panel-bd">
+          <form action="#" method="post">
+            <div class="form-row">
+              <label>您的称呼</label>
+              <input type="text" class="input">
+            </div>
+            <div class="form-row">
+              <label>联系方式</label>
+              <input type="text" class="input">
+            </div>
+            <div class="form-row">
+              <label>留言内容</label>
+              <textarea class="textarea" cols="30" rows="5" placeholder="请输入留言内容…"></textarea>
+            </div>
+            <div class="form-row">
+              <label></label>
+              <input type="submit" class="btn" value="提交留言">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 友情链接 ================= -->
+  <div class="container" id="links">
+    <div class="panel">
+      <div class="panel-hd clearfix">
+        <h2>友情链接</h2>
+        <a class="more" href="#">更多 »</a>
+      </div>
+      <div class="panel-bd links-bd">
+        <a href="http://www.scu.edu.cn" target="_blank">四川大学</a>
+        <a href="#">川大新闻网</a>
+        <a href="#">川大教务处</a>
+        <a href="#">川大图书馆</a>
+        <a href="#">学习通</a>
+        <a href="#">中国大学 MOOC</a>
+        <a href="#">GitHub</a>
+        <a href="#">知乎</a>
+        <a href="#">CSDN</a>
+        <a href="#">菜鸟教程</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 页脚 ================= -->
+  <div id="footer">
+    <div class="container">
+      <div class="footer-nav">
+        <a href="#top">首页</a><a href="#about">关于我</a><a href="#exp">学习经历</a><a href="#notice-panel">通知公告</a><a href="#works">作品展示</a><a href="#resources">学习资源</a><a href="#message">给我留言</a>
+      </div>
+      <p class="footer-info">地址：四川省成都市一环路南一段 24 号（望江校区）　邮编：610065　邮箱：webmaster@example.com</p>
+      <p class="footer-info">Copyright © 2026 个人主页 · 仿四川大学主页风格制作（课程作业）</p>
+      <p class="footer-info">建议使用 Chrome / Edge 浏览器，1920×1080 及以上分辨率浏览本站</p>
+    </div>
+  </div>
+
+  <!-- 返回顶部（fixed 固定定位） -->
+  <a href="#top" id="back-top" title="返回顶部">顶部</a>
+
+</body>
+</html>
