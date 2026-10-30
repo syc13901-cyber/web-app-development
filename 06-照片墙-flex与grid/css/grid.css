@@ -1,0 +1,152 @@
+@charset "UTF-8";
+/* ==========================================================================
+   光影集 · 照片墙  ——  Grid 布局版 grid.css
+   --------------------------------------------------------------------------
+   页面的 1-n-1 结构全部用 grid 实现：
+       ① .page 用 grid-template-areas 把 header / nav / main / footer
+          划分成四行，其中 main 占 1fr，自动撑满视口剩余高度；
+       ② .photo-wall 用 repeat(auto-fill, minmax(220px, 1fr)) 自动分栏，
+          不需要写任何断点就能随容器宽度改变列数；
+       ③ 通栏照片用 grid-column: 1 / -1 横跨整行，构成 1-n-1 的首尾。
+   ========================================================================== */
+
+/* ---------- 1. 整页骨架：grid 区域划分 ---------- */
+.page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
+    min-height: 100vh;
+    overflow-x: clip;
+}
+
+/* ---------- 2. 页头：三列网格，品牌在中线左侧，信息靠右 ---------- */
+.site-header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px 24px;
+}
+
+.brand {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+}
+
+.brand__mark {
+    display: grid;
+    place-items: center;
+}
+
+.brand__text {
+    display: grid;
+    align-content: center;
+    line-height: 1.4;
+}
+
+.header__meta {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: end;
+    gap: 14px;
+}
+
+/* ---------- 3. 导航：等分五列 ---------- */
+.site-nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(110px, 172px));
+    justify-content: center;
+}
+
+.site-nav a {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+/* ---------- 4. 主体 ---------- */
+main {
+    grid-area: main;
+    display: grid;
+    grid-auto-rows: max-content;
+    align-content: start;
+}
+
+/* ---------- 5. 照片墙：自动分栏网格 ---------- */
+.photo-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    align-items: start;
+    justify-items: stretch;
+    gap: 34px 24px;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 0 20px;
+}
+
+.photo {
+    width: 100%;
+}
+
+/* 通栏照片：1-n-1 中的两个「1」，横跨网格全部列 */
+.photo--wide {
+    grid-column: 1 / -1;
+}
+
+/* ---------- 6. 页脚 ---------- */
+.site-footer {
+    grid-area: footer;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 20px;
+}
+
+/* ---------- 7. 响应式 ---------- */
+@media (max-width: 900px) {
+    .site-header {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: start;
+    }
+
+    .header__meta {
+        justify-content: start;
+    }
+
+    .photo-wall {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 28px 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .site-nav a {
+        padding: 12px 8px;
+        font-size: 0.86rem;
+    }
+
+    .photo-wall {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px 14px;
+    }
+
+    .site-footer {
+        grid-auto-flow: row;
+        justify-content: start;
+    }
+}

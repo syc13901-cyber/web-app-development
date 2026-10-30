@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="1-n-1 布局照片墙：使用 Flex 布局实现，鼠标悬停时照片旋转、形变并提升层级。">
+    <title>光影集 · 照片墙｜Flex 布局版</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/flex.css">
+</head>
+<body>
+    <div class="page">
+
+        <!-- ========== 1. 页头 header：品牌 + 版本切换 ========== -->
+        <header class="site-header">
+            <a class="brand" href="index.html" aria-label="返回实验首页">
+                <span class="brand__mark" aria-hidden="true">光影</span>
+                <span class="brand__text">
+                    <span class="brand__title">光影集</span>
+                    <span class="brand__sub">Photo Wall · 1-n-1</span>
+                </span>
+            </a>
+
+            <div class="header__meta">
+                <span class="tag">Flex 布局版</span>
+                <a class="switch" href="grid.html">切换 Grid 布局版 →</a>
+            </div>
+        </header>
+
+        <!-- ========== 2. 导航 nav：横向排列的分类 ========== -->
+        <nav class="site-nav" aria-label="照片分类">
+            <a class="is-active" href="#wall">全部照片</a>
+            <a href="#wall">山川</a>
+            <a href="#wall">城市</a>
+            <a href="#wall">海与光</a>
+            <a href="index.html">实验说明</a>
+        </nav>
+
+        <!-- ========== 3. 主体 body：1 + n + 1 的照片墙 ========== -->
+        <main>
+            <div class="wall-head">
+                <p class="wall-head__eyebrow">Photo Wall · 1-n-1 Layout</p>
+                <h1>光影集 · 十二帧风景</h1>
+                <p>
+                    1 张通栏开篇 + 10 张错落排布 + 1 张通栏收束；
+                    照片墙由 <code>display: flex</code> 与 <code>flex-wrap: wrap</code> 弹性换行排列，
+                    鼠标悬停时照片<strong>旋转、形变</strong>，并抬升到最上层。
+                </p>
+            </div>
+
+            <section class="photo-wall" id="wall" aria-label="照片墙">
+
+                <!-- 第 1 张：通栏开篇（1-n-1 的第一个 1） -->
+                <figure class="photo photo--wide" tabindex="0">
+                    <img class="photo__img" src="images/photo-06.jpg" alt="银河横跨草原上方的山脊" width="900" height="620">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">草原银河</span>
+                        <span class="photo__meta">塔公 · 2025.09 · 14mm f/1.8</span>
+                    </figcaption>
+                </figure>
+
+                <!-- 第 2 ~ 11 张：错落主体（1-n-1 中的 n） -->
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-01.jpg" alt="雪山与日出时分的暖色天空" width="880" height="660">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">雪山日出</span>
+                        <span class="photo__meta">玉龙雪山 · 2025.11</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-02.jpg" alt="清晨的海面与岸边礁石" width="620" height="820">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">潮汐与礁石</span>
+                        <span class="photo__meta">青岛 · 2025.08</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-03.jpg" alt="黄昏时分的城市楼群剪影" width="900" height="640">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">城市夜色</span>
+                        <span class="photo__meta">成都 · 2025.12</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-04.jpg" alt="薄雾中的针叶林" width="620" height="820">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">雾中林海</span>
+                        <span class="photo__meta">峨眉山 · 2025.10</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-05.jpg" alt="夕阳下起伏的沙丘曲线" width="880" height="660">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">沙丘曲线</span>
+                        <span class="photo__meta">敦煌 · 2025.07</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-12.jpg" alt="极光下的山谷与星空" width="880" height="620">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">极光 · 特罗姆瑟</span>
+                        <span class="photo__meta">挪威 · 2026.02</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-07.jpg" alt="湖面倒映着远山与天空" width="760" height="760">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">湖光倒影</span>
+                        <span class="photo__meta">九寨沟 · 2025.08</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-08.jpg" alt="夕阳下盛开的花田" width="640" height="840">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">花田夕照</span>
+                        <span class="photo__meta">若尔盖 · 2025.06</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-09.jpg" alt="夜色中虚化的灯光散景" width="640" height="840">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">街灯散景</span>
+                        <span class="photo__meta">重庆 · 2025.05</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo" tabindex="0">
+                    <img class="photo__img" src="images/photo-11.jpg" alt="穿过树林通向远处的小径" width="640" height="840">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">林间小径</span>
+                        <span class="photo__meta">青城山 · 2025.04</span>
+                    </figcaption>
+                </figure>
+
+                <!-- 第 12 张：通栏收束（1-n-1 的最后一个 1） -->
+                <figure class="photo photo--wide" tabindex="0">
+                    <img class="photo__img" src="images/photo-10.jpg" alt="港口日落与归航的帆船" width="900" height="640">
+                    <figcaption class="photo__cap">
+                        <span class="photo__title">港口日落</span>
+                        <span class="photo__meta">厦门 · 2025.03 · 35mm f/4</span>
+                    </figcaption>
+                </figure>
+            </section>
+        </main>
+
+        <!-- ========== 4. 页脚 footer ========== -->
+        <footer class="site-footer">
+            <p>© 2026 光影集 · 照片墙实验 · 刘虹君 2024141530068</p>
+            <p>布局技术：<code>display: flex</code> + <code>flex-wrap: wrap</code> · <a href="grid.html">查看 Grid 布局版 →</a></p>
+        </footer>
+
+    </div>
+</body>
+</html>

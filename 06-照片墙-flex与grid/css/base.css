@@ -1,0 +1,409 @@
+@charset "UTF-8";
+/* ==========================================================================
+   光影集 · 照片墙  ——  公共样式 base.css
+   --------------------------------------------------------------------------
+   一份样式，两套布局：
+   本文件只负责「内容长什么样」——变量、重置、字体、配色、相框、
+   文字说明、悬停旋转形变动画，以及每张照片的初始倾角与错落位移；
+   页面的 1-n-1 骨架与照片排列所用的布局技术，
+   分别写在 flex.css（Flex 布局）与 grid.css（Grid 布局）中。
+   ========================================================================== */
+
+/* ---------- 1. 全局变量 ---------- */
+:root {
+    --bg: #0c0e14;
+    --bg-soft: #141926;
+    --paper: #f8f4ec;
+    --ink: #23272f;
+    --ink-soft: #6d7482;
+    --text: #eef1f7;
+    --text-soft: #98a2b4;
+    --gold: #e2b077;
+    --gold-soft: #f3d5a9;
+    --line: rgba(255, 255, 255, 0.13);
+    --ease: cubic-bezier(0.22, 0.85, 0.3, 1);
+    --shadow-photo: 0 16px 28px rgba(0, 0, 0, 0.45), 0 3px 8px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 30px 54px rgba(0, 0, 0, 0.6), 0 8px 18px rgba(0, 0, 0, 0.38);
+}
+
+/* ---------- 2. 重置与基础排版 ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.65;
+    background:
+        radial-gradient(1100px 620px at 8% -12%, rgba(226, 176, 119, 0.16), transparent 62%),
+        radial-gradient(900px 520px at 92% 4%, rgba(86, 120, 198, 0.18), transparent 58%),
+        var(--bg);
+    background-attachment: fixed;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+    margin: 0;
+}
+
+:focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 4px;
+}
+
+/* ---------- 3. 页头 header ---------- */
+.site-header {
+    padding: 20px clamp(18px, 4.5vw, 60px);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}
+
+.brand__mark {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(226, 176, 119, 0.65);
+    border-radius: 50%;
+    color: var(--gold-soft);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: radial-gradient(circle at 32% 28%, rgba(226, 176, 119, 0.35), transparent 68%);
+    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease);
+}
+
+.brand:hover .brand__mark {
+    transform: rotate(-12deg);
+    box-shadow: 0 0 0 6px rgba(226, 176, 119, 0.08);
+}
+
+.brand__title {
+    font-size: 1.28rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--text);
+}
+
+.brand__sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    color: var(--text-soft);
+    text-transform: uppercase;
+}
+
+.tag {
+    padding: 5px 12px;
+    border: 1px solid rgba(226, 176, 119, 0.5);
+    border-radius: 999px;
+    color: var(--gold-soft);
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+
+.switch {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    border-bottom: 1px dashed transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.switch:hover {
+    color: var(--gold-soft);
+    border-bottom-color: rgba(243, 213, 169, 0.6);
+}
+
+/* ---------- 4. 导航 nav ---------- */
+.site-nav {
+    border-bottom: 1px solid var(--line);
+    background: rgba(10, 12, 18, 0.55);
+}
+
+.site-nav a {
+    padding: 14px 22px;
+    font-size: 0.92rem;
+    letter-spacing: 0.06em;
+    color: var(--text-soft);
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+    color: var(--gold-soft);
+    background: rgba(226, 176, 119, 0.08);
+}
+
+.site-nav a.is-active {
+    color: var(--gold-soft);
+    box-shadow: inset 0 -2px 0 var(--gold);
+}
+
+/* ---------- 5. 标题区与写真墙主体 ---------- */
+main {
+    padding: clamp(28px, 4vw, 52px) clamp(18px, 4.5vw, 60px) clamp(36px, 5vw, 64px);
+}
+
+.wall-head {
+    max-width: 880px;
+    margin: 0 auto 38px;
+    text-align: center;
+}
+
+.wall-head__eyebrow {
+    font-size: 0.76rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.wall-head h1 {
+    margin: 10px 0 14px;
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    letter-spacing: 0.08em;
+}
+
+.wall-head p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+}
+
+.wall-head code {
+    padding: 2px 7px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--gold-soft);
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- 6. 照片相框 ---------- */
+.photo {
+    position: relative;
+    z-index: 1;                                     /* 层叠基线：未悬停时都在同一层 */
+    padding: 10px 10px 12px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #fdfbf6, var(--paper));
+    box-shadow: var(--shadow-photo);
+    transform: rotate(var(--tilt, 0deg)) translateY(var(--shift, 0px));
+    transform-origin: center center;
+    transition:
+        transform 0.5s var(--ease),
+        box-shadow 0.5s var(--ease),
+        opacity 0.4s var(--ease);
+    will-change: transform;
+}
+
+/* 相框内沿的一道细边，增加纸张质感 */
+.photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+    pointer-events: none;
+}
+
+.photo__img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    background: #d9d3c7;
+}
+
+.photo__cap {
+    padding: 9px 2px 0;
+    color: var(--ink);
+}
+
+.photo__title {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.photo__meta {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+}
+
+/* 通栏照片（1-n-1 中的两个「1」）：高度截取，保持画面比例 */
+.photo--wide {
+    padding: 12px 12px 14px;
+}
+
+.photo--wide .photo__img {
+    width: 100%;
+    height: clamp(190px, 24vw, 320px);
+    object-fit: cover;
+    object-position: var(--focus, 50% 70%);   /* 按图片内容裁切，保住地平线或主体 */
+}
+
+/* ---------- 7. 悬停：旋转 + 形变动画 + 提升层级 ---------- */
+.photo:hover,
+.photo:focus-visible {
+    z-index: 40;                                    /* 关键：抬到最上层，解决旋转后互相遮挡 */
+    box-shadow: var(--shadow-hover);
+    animation: swing 1.05s var(--ease) both;
+}
+
+.photo:focus-visible {
+    outline: 2px solid var(--gold-soft);
+    outline-offset: 6px;
+}
+
+/* 一张照片被悬停时，其余照片轻微变暗，视线更集中 */
+.photo-wall:hover .photo {
+    opacity: 0.72;
+}
+
+.photo-wall:hover .photo:hover,
+.photo-wall:hover .photo:focus-visible {
+    opacity: 1;
+}
+
+@keyframes swing {
+    0% {
+        transform:
+            rotate(var(--tilt, 0deg))
+            translateY(var(--shift, 0px))
+            scale(1) skew(0deg, 0deg);
+    }
+    38% {
+        /* 反向过冲：倾角取反、上浮 16px、放大并倾斜 */
+        transform:
+            rotate(calc(var(--tilt, 0deg) * -0.8))
+            translateY(calc(var(--shift, 0px) - 16px))
+            scale(1.09) skew(-2.5deg, 1.6deg);
+    }
+    68% {
+        /* 回摆：角度收敛，仍保留一点倾斜 */
+        transform:
+            rotate(calc(var(--tilt, 0deg) * 0.35))
+            translateY(calc(var(--shift, 0px) - 8px))
+            scale(1.05) skew(1.4deg, -0.9deg);
+    }
+    100% {
+        /* 定格：完全回正，放大 1.06 倍 */
+        transform:
+            rotate(0deg)
+            translateY(calc(var(--shift, 0px) - 6px))
+            scale(1.06) skew(0deg, 0deg);
+    }
+}
+
+/* 尊重系统的「减少动态效果」设置 */
+@media (prefers-reduced-motion: reduce) {
+    .photo,
+    .photo:hover,
+    .photo:focus-visible {
+        animation: none;
+        transition: box-shadow 0.3s;
+    }
+}
+
+/* ---------- 8. 页脚 footer ---------- */
+.site-footer {
+    padding: 20px clamp(18px, 4.5vw, 60px);
+    border-top: 1px solid var(--line);
+    color: var(--text-soft);
+    font-size: 0.8rem;
+    background: rgba(10, 12, 18, 0.55);
+}
+
+.site-footer a {
+    color: var(--gold-soft);
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- 9. 每张照片的初始倾角与错落位移 ----------
+   通过自定义属性统一管理，改一处即可调整整面墙的「随手摆放」感。
+   第 1 张与第 12 张是通栏照片，保持水平不倾斜。 */
+.photo:nth-child(1) {
+    --tilt: 0deg;
+    --shift: 0px;
+    --focus: 50% 88%;                 /* 银河：保留下方山脊 */
+}
+
+.photo:nth-child(2) {
+    --tilt: -3.4deg;
+    --shift: 16px;
+}
+
+.photo:nth-child(3) {
+    --tilt: 2.6deg;
+    --shift: 0px;
+}
+
+.photo:nth-child(4) {
+    --tilt: -2.2deg;
+    --shift: 10px;
+}
+
+.photo:nth-child(5) {
+    --tilt: 3.8deg;
+    --shift: 22px;
+}
+
+.photo:nth-child(6) {
+    --tilt: -1.8deg;
+    --shift: 4px;
+}
+
+.photo:nth-child(7) {
+    --tilt: 2.4deg;
+    --shift: 18px;
+}
+
+.photo:nth-child(8) {
+    --tilt: -3.0deg;
+    --shift: 0px;
+}
+
+.photo:nth-child(9) {
+    --tilt: 2.0deg;
+    --shift: 12px;
+}
+
+.photo:nth-child(10) {
+    --tilt: -2.8deg;
+    --shift: 24px;
+}
+
+.photo:nth-child(11) {
+    --tilt: 3.2deg;
+    --shift: 6px;
+}
+
+.photo:nth-child(12) {
+    --tilt: 0deg;
+    --shift: 0px;
+    --focus: 50% 58%;                 /* 港口：保住灯塔与海平线 */
+}

@@ -1,0 +1,156 @@
+@charset "UTF-8";
+/* ==========================================================================
+   光影集 · 照片墙  ——  Flex 布局版 flex.css
+   --------------------------------------------------------------------------
+   页面的 1-n-1 结构全部用 flex 实现：
+       ① flex-direction: column 把 header / nav / main / footer 纵向排成 1-n-1；
+       ② main 用 flex: 1 撑满剩余高度，保证 footer 永远在视口底部；
+       ③ 照片墙用 flex-wrap: wrap 自动换行，照片宽度由 --w 变量控制。
+   （页头、导航、页脚内部的横排同样使用 flex。）
+   ========================================================================== */
+
+/* ---------- 1. 整页骨架：纵向 flex，自动撑满一屏 ---------- */
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: clip;
+}
+
+/* ---------- 2. 页头：品牌居左、信息居右 ---------- */
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+}
+
+.header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+}
+
+/* ---------- 3. 导航：横向居中排列，窄屏自动换行 ---------- */
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* ---------- 4. 主体：flex:1 撑满 1-n-1 的中间部分 ---------- */
+main {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
+/* ---------- 5. 照片墙：弹性换行布局 ---------- */
+.photo-wall {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 26px 20px;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 0 20px;
+}
+
+/* 普通照片：以 --w 为基准宽度，同一行内按剩余空间等比伸缩 */
+.photo {
+    flex: 1 1 var(--w, 240px);
+    max-width: calc(var(--w, 240px) * 1.35);
+}
+
+/* 通栏照片：1-n-1 中的两个「1」，独占一整行 */
+.photo--wide {
+    flex: 1 1 100%;
+    max-width: none;
+}
+
+/* 普通照片的基准宽度：宽窄交错，营造错落感 */
+.photo:nth-child(2)  { --w: 250px; }
+.photo:nth-child(3)  { --w: 210px; }
+.photo:nth-child(4)  { --w: 268px; }
+.photo:nth-child(5)  { --w: 230px; }
+.photo:nth-child(6)  { --w: 258px; }
+.photo:nth-child(7)  { --w: 204px; }
+.photo:nth-child(8)  { --w: 246px; }
+.photo:nth-child(9)  { --w: 218px; }
+.photo:nth-child(10) { --w: 276px; }
+.photo:nth-child(11) { --w: 212px; }
+
+/* ---------- 6. 页脚：两端对齐 ---------- */
+.site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 20px;
+}
+
+/* ---------- 7. 响应式 ---------- */
+@media (max-width: 900px) {
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header__meta {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .photo {
+        max-width: calc(var(--w, 240px) * 1.6);
+    }
+}
+
+@media (max-width: 640px) {
+    .site-nav a {
+        flex: 1 1 33.33%;
+        text-align: center;
+    }
+
+    .photo-wall {
+        gap: 26px 16px;
+    }
+
+    .photo {
+        flex: 1 1 44%;
+        max-width: none;
+    }
+
+    .photo--wide {
+        flex-basis: 100%;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
