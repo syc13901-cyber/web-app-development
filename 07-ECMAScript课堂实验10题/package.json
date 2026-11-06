@@ -1,0 +1,11 @@
+{
+  "name": "javascript-class-experiment-10-tasks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JavaScript 课堂实验 10 道题",
+  "scripts": {
+    "demo": "node scripts/run-all.js",
+    "test": "node tests/verify.js"
+  }
+}
+
