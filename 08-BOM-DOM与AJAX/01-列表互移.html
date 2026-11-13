@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>双列表名单互移（支持多选）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #eef0f4;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+
+  /* ---------- 整体卡片 ---------- */
+  .picker {
+    width: 820px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(30, 41, 59, .12);
+  }
+
+  .picker-header {
+    background: linear-gradient(135deg, #6d28d9 0%, #4f46e5 55%, #2563eb 100%);
+    color: #fff;
+    text-align: center;
+    padding: 18px 20px 16px;
+  }
+  .picker-header h1 { font-size: 19px; font-weight: 700; letter-spacing: 1px; }
+  .picker-header p  { margin-top: 6px; font-size: 11.5px; opacity: .88; line-height: 1.6; }
+
+  /* ---------- 双列表 + 中间按钮 ---------- */
+  .picker-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 22px 26px 26px;
+  }
+
+  .panel { flex: 1; }
+  .panel-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .name-list {
+    height: 190px;
+    border: 1px solid #d9dfe8;
+    border-radius: 6px;
+    overflow-y: auto;
+    list-style: none;
+    background: #fff;
+  }
+  .name-list li {
+    padding: 7px 12px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #f0f2f6;
+  }
+  .name-list li:last-child { border-bottom: none; }
+  .name-list li:hover        { background: #f5f3ff; }
+  .name-list li.active       { background: #6d28d9; color: #fff; }
+  .name-list li.active:hover { background: #5b21b6; }
+
+  /* 空名单提示（ul 里没有子节点时显示） */
+  .name-list:empty::after {
+    content: "（名单为空）";
+    display: block;
+    text-align: center;
+    padding: 62px 0;
+    color: #b6bdc9;
+    font-size: 12px;
+  }
+
+  .ops {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 64px;
+  }
+  .ops button {
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  #moveInBtn  { background: #6d28d9; }
+  #moveInBtn:hover:not(:disabled)  { background: #5b21b6; }
+  #moveOutBtn { background: #dc2626; }
+  #moveOutBtn:hover:not(:disabled) { background: #b91c1c; }
+  .ops button:disabled {
+    background: #c9cfda;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body>
+
+<div class="picker">
+  <div class="picker-header">
+    <h1>双列表选择器演示（支持多选）</h1>
+    <p>请在待选名单中选中一个或多个候选项，点击「移入」按钮；<br>
+       或在参加名单中选择候选项，点击「移出」按钮</p>
+  </div>
+
+  <div class="picker-body">
+    <div class="panel">
+      <div class="panel-title">待选名单</div>
+      <ul id="pendingList" class="name-list"></ul>
+    </div>
+
+    <div class="ops">
+      <button id="moveInBtn" type="button" disabled>移入</button>
+      <button id="moveOutBtn" type="button" disabled>移出</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">参加名单</div>
+      <ul id="joinedList" class="name-list"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // 初始名单：每次刷新页面都会从这里重新生成
+  var NAMES = ['张三', '刘强', '陈朵', '孙广', '周七', '许君', '李天雨', '张大力', '魏雨洁'];
+
+  var pendingList = document.getElementById('pendingList');
+  var joinedList  = document.getElementById('joinedList');
+  var moveInBtn   = document.getElementById('moveInBtn');
+  var moveOutBtn  = document.getElementById('moveOutBtn');
+
+  /* ---------- 1. 初始化：用 createElement 逐个生成 li 节点 ---------- */
+  function fillList(list, names) {
+    for (var i = 0; i < names.length; i++) {
+      var li = document.createElement('li');
+      li.textContent = names[i];
+      list.appendChild(li);
+    }
+  }
+  fillList(pendingList, NAMES);
+
+  /* ---------- 2. 事件绑定：点击切换选中（active），支持多选 ---------- */
+  function onListClick(list, e) {
+    var target = e.target;
+    if (target.tagName === 'LI') {
+      target.classList.toggle('active');
+      refreshButtons();
+    }
+  }
+  pendingList.addEventListener('click', function (e) { onListClick(pendingList, e); });
+  joinedList.addEventListener('click',  function (e) { onListClick(joinedList,  e); });
+
+  /* ---------- 3. 按钮状态：选中至少一项才能点 ---------- */
+  function hasSelection(list) {
+    return list.querySelector('li.active') !== null;
+  }
+  function refreshButtons() {
+    moveInBtn.disabled  = !hasSelection(pendingList);
+    moveOutBtn.disabled = !hasSelection(joinedList);
+  }
+
+  /* ---------- 4. 移动节点：appendChild 会把同一节点"搬"到新父元素下 ---------- */
+  function moveSelected(fromList, toList) {
+    var selected = fromList.querySelectorAll('li.active'); // 静态快照，边搬边遍历安全
+    for (var i = 0; i < selected.length; i++) {
+      selected[i].classList.remove('active'); // 先取消高亮，避免带着选中状态搬走
+      toList.appendChild(selected[i]);        // 节点移动：不是复制，原列表里自动消失
+    }
+    refreshButtons();
+  }
+  moveInBtn.addEventListener('click',  function () { moveSelected(pendingList, joinedList); });
+  moveOutBtn.addEventListener('click', function () { moveSelected(joinedList, pendingList); });
+})();
+</script>
+</body>
+</html>

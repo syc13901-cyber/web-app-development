@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用原生 AJAX 加载远程用户数据</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #eef0f4;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 620px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(30, 41, 59, .12);
+    padding-bottom: 22px;
+  }
+
+  .card-header {
+    text-align: center;
+    padding: 18px 20px 0;
+  }
+  .card-header h1 { font-size: 16px; font-weight: 700; color: #222; }
+
+  .toolbar {
+    text-align: center;
+    padding: 12px 20px 14px;
+  }
+  #loadBtn {
+    padding: 7px 18px;
+    border: none;
+    border-radius: 4px;
+    background: #16a34a;
+    color: #fff;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  #loadBtn:hover:not(:disabled) { background: #15803d; }
+  #loadBtn:disabled { background: #9fd4b0; cursor: not-allowed; }
+
+  /* 状态行：显示 readyState / status / 数据条数，证明"状态判断"过程 */
+  .status {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+  .status.loading { color: #b45309; }
+  .status.ok      { color: #16a34a; }
+  .status.err     { color: #dc2626; }
+
+  /* ---------- 局部刷新的列表区域 ---------- */
+  .user-list {
+    list-style: none;
+    margin: 0 22px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    max-height: 340px;
+    overflow-y: auto;
+  }
+  .user-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid #eef0f4;
+  }
+  .user-item:last-child { border-bottom: none; }
+  .user-item:nth-child(odd) { background: #f9fafb; }
+
+  .user-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .user-meta {
+    font-size: 12px;
+    color: #4a7bd4;
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  /* 未加载时的占位提示 */
+  .placeholder {
+    padding: 60px 0;
+    text-align: center;
+    color: #b6bdc9;
+    font-size: 12.5px;
+  }
+
+  .hint {
+    margin: 14px 22px 0;
+    font-size: 11.5px;
+    color: #9aa3b0;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h1>用户列表</h1>
+  </div>
+
+  <div class="toolbar">
+    <button id="loadBtn" type="button">加载用户数据</button>
+    <span id="status" class="status">数据来源：jsonplaceholder.typicode.com/users，点击按钮开始加载</span>
+  </div>
+
+  <!-- 局部刷新区域：只更新这个 ul，页面整体不跳转 -->
+  <ul id="userList" class="user-list">
+    <li class="placeholder">暂无数据，点击上方「加载用户数据」按钮</li>
+  </ul>
+
+  <p class="hint">用 XMLHttpRequest 发起 GET 请求 → 判 readyState / status → 解析 JSON → 动态生成节点</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var API = 'https://jsonplaceholder.typicode.com/users';
+
+  var loadBtn  = document.getElementById('loadBtn');
+  var statusEl = document.getElementById('status');
+  var userList = document.getElementById('userList');
+
+  function setStatus(text, type) {
+    statusEl.textContent = text;
+    statusEl.className = 'status' + (type ? ' ' + type : '');
+  }
+
+  /* ---------- 局部刷新：清空列表，用 createElement + textContent 重建 ---------- */
+  function renderUsers(users) {
+    userList.textContent = '';                    // 只清空这一个 ul，页面其他地方不动
+    users.forEach(function (user) {
+      var li = document.createElement('li');
+      li.className = 'user-item';
+
+      var name = document.createElement('div');
+      name.className = 'user-name';
+      name.textContent = user.name;
+
+      var email = document.createElement('div');
+      email.className = 'user-meta';
+      email.textContent = 'email：' + user.email;
+
+      var phone = document.createElement('div');
+      phone.className = 'user-meta';
+      phone.textContent = 'phone：' + user.phone;
+
+      li.appendChild(name);
+      li.appendChild(email);
+      li.appendChild(phone);
+      userList.appendChild(li);
+    });
+  }
+
+  /* ---------- 一次完整的 AJAX 请求 ---------- */
+  function loadUsers() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', API, true);                   // ① 方法、地址、异步
+    xhr.responseType = 'json';                    // ③ 让浏览器自动把响应解析成对象
+    xhr.timeout = 8000;                           // 超时保护
+
+    setStatus('准备请求 ' + API + ' …', 'loading');
+    loadBtn.disabled = true;
+
+    /* ---------- ② 状态判断：readyState 走到哪一步，界面就显示到哪一步 ---------- */
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 1) setStatus('readyState = 1：已调用 open()，请求尚未发出…', 'loading');
+      if (xhr.readyState === 2) setStatus('readyState = 2：请求已发送，收到响应头…', 'loading');
+      if (xhr.readyState === 3) setStatus('readyState = 3：正在接收响应数据…', 'loading');
+      if (xhr.readyState !== 4) return;
+
+      /* readyState = 4 只代表"收完了"，成功与否还要看 status */
+      if (xhr.status >= 200 && xhr.status < 300) {
+        var users = xhr.response;
+        if (typeof users === 'string') {          // 兜底：个别环境下 response 仍是字符串
+          try { users = JSON.parse(users); }
+          catch (err) { setStatus('JSON 解析失败：' + err.message, 'err'); loadBtn.disabled = false; return; }
+        }
+        if (!Array.isArray(users)) users = users ? [users] : [];
+        renderUsers(users);
+        setStatus('加载成功：readyState = 4，status = ' + xhr.status +
+                  '，共 ' + users.length + ' 位用户。只刷新了下方列表，页面没有重新加载。', 'ok');
+      } else {
+        setStatus('HTTP 错误：readyState = 4，status = ' + xhr.status +
+                  '（404 / 500 等走的是这个分支，不会触发 onerror）', 'err');
+      }
+      loadBtn.disabled = false;
+    };
+
+    /* ---------- 网络层失败与超时 ---------- */
+    xhr.onerror = function () {
+      setStatus('网络错误（onerror）：请求没有发出去或连接被断开。请检查网络；' +
+                '若用 file:// 直接打开，建议改用本地服务器访问本页。', 'err');
+      loadBtn.disabled = false;
+    };
+    xhr.ontimeout = function () {
+      setStatus('请求超时（ontimeout）：8 秒内没有拿到响应', 'err');
+      loadBtn.disabled = false;
+    };
+
+    xhr.send();                                   // ④ GET 请求没有请求体
+  }
+
+  loadBtn.addEventListener('click', loadUsers);
+})();
+</script>
+</body>
+</html>
