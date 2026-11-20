@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验一：导航栏弹出菜单（v-for + v-show + v-on）</title>
+    <style>
+        :root {
+            --ink: #2f2020;
+            --muted: #7c6a67;
+            --maroon: #8c1c21;
+            --maroon-deep: #5d0e12;
+            --cream: #f7f2ef;
+            --line: #e8dbd7;
+            --paper: #fffdfc;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body { margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            padding: 48px 20px 64px;
+            color: var(--ink);
+            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            background:
+                radial-gradient(1100px 480px at 12% -10%, #f1e2dd 0%, transparent 60%),
+                radial-gradient(900px 480px at 100% 0%, #efe5df 0%, transparent 55%),
+                var(--cream);
+        }
+
+        .page { max-width: 980px; margin: 0 auto; }
+
+        .eyebrow {
+            margin: 0;
+            color: var(--maroon);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .22em;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 10px 0 10px;
+        }
+
+        .exp-badge {
+            padding: 7px 16px;
+            border-radius: 999px;
+            background: var(--maroon);
+            color: #fff;
+            font-size: 13px;
+            letter-spacing: .14em;
+            box-shadow: 0 8px 18px rgba(140, 28, 33, .22);
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Songti SC", "STSong", "SimSun", serif;
+            font-size: 40px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            color: #3a2725;
+        }
+
+        .subtitle {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .subtitle code {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #f3e7e4;
+            color: var(--maroon);
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+        }
+
+        .demo-card {
+            margin-top: 28px;
+            overflow: visible;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--paper);
+            box-shadow: 0 18px 50px rgba(92, 28, 26, .09);
+        }
+
+        .demo-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--line);
+            border-radius: 14px 14px 0 0;
+            background: #fbf7f5;
+        }
+
+        .win-dot { width: 10px; height: 10px; border-radius: 50%; background: #d9c8c4; }
+        .win-dot.red { background: #c98a86; }
+        .win-dot.yellow { background: #ddbd8e; }
+        .win-dot.green { background: #a8bfa1; }
+
+        .demo-label {
+            margin-left: 8px;
+            color: #8a7774;
+            font-size: 12px;
+            letter-spacing: .03em;
+        }
+
+        .nav-demo { position: relative; }
+
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(180deg, #7f171c, #651015);
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .08);
+        }
+
+        .nav-list {
+            display: flex;
+            margin: 0;
+            padding: 0 8px;
+            list-style: none;
+        }
+
+        .nav-item { position: relative; }
+        .nav-item + .nav-item .nav-btn { border-left: 1px solid rgba(255, 255, 255, .16); }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 15px 26px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font: inherit;
+            font-size: 14px;
+            letter-spacing: .08em;
+            cursor: pointer;
+            transition: background .18s ease;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.is-open { background: rgba(255, 255, 255, .12); }
+
+        .nav-btn:focus-visible {
+            outline: 2px solid #f0cdb2;
+            outline-offset: -3px;
+        }
+
+        .caret {
+            width: 0;
+            height: 0;
+            border-top: 5px solid rgba(255, 255, 255, .8);
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            transition: transform .2s ease;
+        }
+
+        .nav-btn.is-open .caret { transform: rotate(180deg); }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+            min-width: 170px;
+            margin: 0;
+            padding: 6px 0;
+            list-style: none;
+            border: 1px solid #dcc7c2;
+            border-top: 2px solid var(--maroon);
+            border-radius: 0 0 8px 8px;
+            background: #fff;
+            box-shadow: 0 22px 45px rgba(70, 20, 18, .26);
+        }
+
+        .dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            color: #4a3634;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background .15s ease, color .15s ease;
+        }
+
+        /* 最后一项的下拉层右对齐，避免在窄屏上冲出卡片 */
+        .nav-item:last-child .dropdown {
+            left: auto;
+            right: 0;
+        }
+
+        .dropdown a:hover {
+            background: #f9ecec;
+            color: var(--maroon);
+        }
+
+        .dropdown a:focus-visible {
+            outline: 2px solid #cfa7a2;
+            outline-offset: -2px;
+            background: #f9ecec;
+        }
+
+        .drop-mark { color: #c39b97; font-size: 14px; }
+
+        .content-area {
+            min-height: 280px;
+            padding: 44px 46px 46px;
+            border-radius: 0 0 14px 14px;
+            background: linear-gradient(180deg, #fffdfc, #fdf9f7);
+        }
+
+        .content-kicker {
+            margin: 0;
+            color: #b08e8a;
+            font-size: 12px;
+            letter-spacing: .2em;
+        }
+
+        .content-area h2 {
+            margin: 10px 0 10px;
+            min-height: 40px;
+            color: #3a2725;
+            font-family: "Songti SC", "STSong", "SimSun", serif;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .content-text {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .selected-name { color: var(--maroon); }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 26px;
+        }
+
+        .chip {
+            padding: 4px 11px;
+            border: 1px solid #edd8d4;
+            border-radius: 999px;
+            background: #f7eae8;
+            color: #8c5a56;
+            font-size: 12px;
+        }
+
+        .page-foot {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 18px;
+            color: #9a8682;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .page-foot p { margin: 0; }
+        .page-foot strong { color: #7b4b48; font-weight: 600; }
+
+        @media (max-width: 640px) {
+            body { padding: 30px 14px 44px; }
+            h1 { font-size: 30px; }
+            .nav-btn { padding: 13px 16px; font-size: 13px; }
+            .content-area { padding: 30px 22px; }
+            .content-area h2 { font-size: 23px; }
+            .page-foot { flex-direction: column; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="page">
+        <header>
+            <p class="eyebrow">VUE 3 · 课堂实验</p>
+            <div class="title-row">
+                <span class="exp-badge">实验一</span>
+                <h1>导航栏弹出菜单</h1>
+            </div>
+            <p class="subtitle">
+                用 <code>v-for</code> 循环渲染菜单，用 <code>v-show</code> 控制下拉层的显示与隐藏，
+                用 <code>v-on</code>（简写 <code>@click</code>）处理展开、选择和点击空白处关闭。
+            </p>
+        </header>
+
+        <main class="demo-card">
+            <div class="demo-toolbar">
+                <span class="win-dot red"></span>
+                <span class="win-dot yellow"></span>
+                <span class="win-dot green"></span>
+                <span class="demo-label">实验一：导航栏弹出菜单（v-for + v-show + v-on）</span>
+            </div>
+
+            <div class="nav-demo">
+                <nav class="navbar" aria-label="示例导航" ref="menuRoot">
+                    <ul class="nav-list">
+                        <li
+                            v-for="menu in menus"
+                            :key="menu.id"
+                            class="nav-item"
+                        >
+                            <button
+                                type="button"
+                                class="nav-btn"
+                                :class="{ 'is-open': openMenu === menu.id }"
+                                :aria-expanded="openMenu === menu.id"
+                                :aria-haspopup="menu.children.length > 0"
+                                @click="toggleMenu(menu)"
+                            >
+                                {{ menu.name }}
+                                <span v-if="menu.children.length" class="caret"></span>
+                            </button>
+
+                            <!-- 下拉层：v-show 只切换 display，DOM 一直保留 -->
+                            <template v-if="menu.children.length">
+                                <ul v-show="openMenu === menu.id" class="dropdown" role="menu">
+                                    <li v-for="child in menu.children" :key="child" role="none">
+                                        <a href="#" role="menuitem" @click.prevent="choose(menu, child)">
+                                            <span class="drop-mark">›</span>{{ child }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </template>
+                        </li>
+                    </ul>
+                </nav>
+
+                <section class="content-area">
+                    <p class="content-kicker">当前选择</p>
+                    <h2 v-if="selected">
+                        <span class="selected-name">{{ selected }}</span>
+                    </h2>
+                    <h2 v-else>请从上方菜单中选择一项</h2>
+
+                    <p v-if="selected" class="content-text">
+                        你点击了「{{ selected }}」，下拉菜单已自动收起，内容区同步更新。
+                    </p>
+                    <p v-else class="content-text">
+                        点击「编程」「教程」「前端」展开下拉列表；点击页面空白处或按 Esc 键即可关闭。
+                    </p>
+
+                    <div class="chips">
+                        <span class="chip">v-for 渲染菜单</span>
+                        <span class="chip">v-show 切换下拉层</span>
+                        <span class="chip">@click 处理交互</span>
+                        <span class="chip">点击空白处关闭</span>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="page-foot">
+            <p><strong>操作：</strong>点击带 ▾ 的菜单展开 / 收起，点击子项完成选择，点击其他主菜单可直接切换。</p>
+            <p>Vue 3 · Options API · 单文件实验</p>
+        </footer>
+    </div>
+
+    <script src="assets/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    // 初始不展开，点击菜单后再显示下拉层
+                    openMenu: null,
+                    selected: '',
+                    menus: [
+                        { id: 1, name: '主页', children: [] },
+                        { id: 2, name: '编程', children: ['前端', '后端', '移动', '测试'] },
+                        { id: 3, name: '教程', children: ['Vue 基础', 'Vue 进阶', '项目实战'] },
+                        { id: 4, name: '前端', children: ['HTML', 'CSS', 'JavaScript', 'Vue 3'] }
+                    ]
+                };
+            },
+            methods: {
+                // 点击主菜单：有子项就切换展开状态，没有子项就当作普通链接
+                toggleMenu(menu) {
+                    if (!menu.children.length) {
+                        this.selected = menu.name;
+                        this.openMenu = null;
+                        return;
+                    }
+                    this.openMenu = this.openMenu === menu.id ? null : menu.id;
+                },
+                // 选择子项后收起菜单，并把结果显示到内容区
+                choose(menu, child) {
+                    this.selected = menu.name + ' / ' + child;
+                    this.openMenu = null;
+                },
+                onDocumentClick(event) {
+                    if (!this.$refs.menuRoot.contains(event.target)) {
+                        this.openMenu = null;
+                    }
+                },
+                onKeydown(event) {
+                    if (event.key === 'Escape') {
+                        this.openMenu = null;
+                    }
+                }
+            },
+            mounted() {
+                document.addEventListener('click', this.onDocumentClick);
+                document.addEventListener('keydown', this.onKeydown);
+            },
+            beforeUnmount() {
+                document.removeEventListener('click', this.onDocumentClick);
+                document.removeEventListener('keydown', this.onKeydown);
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
