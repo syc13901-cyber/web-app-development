@@ -12,11 +12,12 @@
 | 3 | [06-照片墙-flex与grid](./06-照片墙-flex与grid/) | 同一页面用 Flex 与 Grid 各实现一次的照片墙 | Flexbox / CSS Grid / CSS 动画 |
 | 4 | [07-ECMAScript课堂实验10题](./07-ECMAScript课堂实验10题/) | ECMAScript 课堂实验 10 题 | Node.js / ES6+（闭包·原型·Promise·async） |
 | 5 | [08-BOM-DOM与AJAX](./08-BOM-DOM与AJAX/) | 列表互移 / 表单校验 / AJAX 用户列表 | 原生 JS（DOM / BOM / XMLHttpRequest） |
+| 6 | [09-Vue3课堂实验三任务](./09-Vue3课堂实验三任务/) | 导航菜单 / 百叶窗 / 轮播图 | Vue 3（v-for·v-show·v-bind·定时器） |
 
 ## 运行方式
 
-- **静态页面类**（04 / 05 / 06 / 08）：直接用浏览器打开对应目录的 `*.html` 文件即可；
-  仅 `08-BOM-DOM与AJAX/03-AJAX加载.html` 需联网请求远程测试接口。
+- **静态页面类**（04 / 05 / 06 / 08 / 09）：直接用浏览器打开对应目录的 `*.html` 文件即可；
+  仅 `08-BOM-DOM与AJAX/03-AJAX加载.html` 需联网请求远程测试接口（09 的 Vue 运行时为本地文件，可离线）。
 - **Node.js 类**（07）：进入目录后执行
 
   ```bash
@@ -32,7 +33,8 @@ web应用开发/
 ├─ 05-个人主页/               第五次实验
 ├─ 06-照片墙-flex与grid/      第六次实验
 ├─ 07-ECMAScript课堂实验10题/ 第七次实验
-└─ 08-BOM-DOM与AJAX/          第八次实验
+├─ 08-BOM-DOM与AJAX/          第八次实验
+└─ 09-Vue3课堂实验三任务/     第九次实验
 ```
 
 ## 环境
