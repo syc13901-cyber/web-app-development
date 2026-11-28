@@ -13,6 +13,7 @@
 | 4 | [07-ECMAScript课堂实验10题](./07-ECMAScript课堂实验10题/) | ECMAScript 课堂实验 10 题 | Node.js / ES6+（闭包·原型·Promise·async） |
 | 5 | [08-BOM-DOM与AJAX](./08-BOM-DOM与AJAX/) | 列表互移 / 表单校验 / AJAX 用户列表 | 原生 JS（DOM / BOM / XMLHttpRequest） |
 | 6 | [09-Vue3课堂实验三任务](./09-Vue3课堂实验三任务/) | 导航菜单 / 百叶窗 / 轮播图 | Vue 3（v-for·v-show·v-bind·定时器） |
+| 7 | [10-Vue3选课系统](./10-Vue3选课系统/) | SPA 选课系统（登录/列表/详情/已选） | Vue3 + Vite + vue-router + Pinia + axios |
 
 ## 运行方式
 
@@ -25,6 +26,9 @@
   npm test       # 自动验收
   ```
 
+- **Vite 工程类**（10）：进入 `10-Vue3选课系统/` 后执行 `npm install && npm run dev`，
+  浏览器访问 Vite 提示的地址（默认 http://localhost:5173）
+
 ## 目录结构
 
 ```
@@ -34,7 +38,8 @@ web应用开发/
 ├─ 06-照片墙-flex与grid/      第六次实验
 ├─ 07-ECMAScript课堂实验10题/ 第七次实验
 ├─ 08-BOM-DOM与AJAX/          第八次实验
-└─ 09-Vue3课堂实验三任务/     第九次实验
+├─ 09-Vue3课堂实验三任务/     第九次实验
+└─ 10-Vue3选课系统/           第十次实验
 ```
 
 ## 环境
